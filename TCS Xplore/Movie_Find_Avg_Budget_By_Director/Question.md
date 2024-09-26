@@ -66,3 +66,139 @@ Next, read the value for director, rating and budget.
 
     200
     1401
+
+
+Here is the solution in Java:
+
+**Movie class**
+```java
+public class Movie {
+    private int movieId;
+    private String director;
+    private int rating;
+    private int budget;
+
+    // Parameterized constructor
+    public Movie(int movieId, String director, int rating, int budget) {
+        this.movieId = movieId;
+        this.director = director;
+        this.rating = rating;
+        this.budget = budget;
+    }
+
+    // Getters
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    // Setters
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+}
+```
+
+**Solution class**
+```java
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Movie[] movies = new Movie[4];
+        movies[0] = new Movie(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextInt());
+        movies[1] = new Movie(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextInt());
+        movies[2] = new Movie(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextInt());
+        movies[3] = new Movie(scanner.nextInt(), scanner.next(), scanner.nextInt(), scanner.nextInt());
+
+        String director = scanner.next();
+        int rating = scanner.nextInt();
+        int budget = scanner.nextInt();
+
+        int avgBudget = findAvgBudgetByDirector(movies, director);
+        if (avgBudget > 0) {
+            System.out.println(avgBudget);
+        } else {
+            System.out.println("Sorry - The given director has not yet directed any movie");
+        }
+
+        Movie movie = getMovieByRatingBudget(movies, rating, budget);
+        if (movie != null) {
+            System.out.println(movie.getMovieId());
+        } else {
+            System.out.println("Sorry - No movie is available with the specified rating and budget requirement");
+        }
+    }
+
+    public static int findAvgBudgetByDirector(Movie[] movies, String director) {
+        int sum = 0;
+        int count = 0;
+        for (Movie movie : movies) {
+            if (movie.getDirector().equalsIgnoreCase(director)) {
+                sum += movie.getBudget();
+                count++;
+            }
+        }
+        return count > 0 ? sum / count : 0;
+    }
+
+    public static Movie getMovieByRatingBudget(Movie[] movies, int rating, int budget) {
+        for (Movie movie : movies) {
+            if (movie.getRating() == rating && budget % movie.getRating() == 0 && movie.getBudget() == budget) {
+                return movie;
+            }
+        }
+        return null;
+    }
+}
+```
+
+**Explanation**
+
+We create a `Movie` class with a parameterized constructor, getters, and setters. The `Solution` class has two static methods - `findAvgBudgetByDirector` and `getMovieByRatingBudget`.
+
+In the `main` method, we read the movie objects from the input, along with the director, rating, and budget. We then call these static methods and print the output.
+
+The `findAvgBudgetByDirector` method iterates through the movie objects, checks if the director matches the given director, and if so, adds the budget to the sum and increments the count. Finally, it returns the average budget if there are movies by the given director, or 0 otherwise.
+
+The `getMovieByRatingBudget` method iterates through the movie objects, checks if the rating and budget match the given rating and budget, and if the rating is a factor of the budget. If all conditions are met, it returns the movie object. Otherwise, it returns null.
+
+**Input**
+
+The input is provided in the problem statement.
+
+**Output**
+
+The output is:
+
+```
+200
+1401
+```
+
+This corresponds to the average budget for the given director and the movieId of the movie with the specified rating and budget requirement.

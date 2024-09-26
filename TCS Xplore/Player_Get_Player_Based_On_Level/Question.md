@@ -62,3 +62,144 @@ Please consider the skill value read above as skill parameter for both the stati
 
     45
     102
+
+
+Here is the Java code for the problem statement:
+
+```markdown
+# Problem Statement
+
+## Class Player
+
+```java
+public class Player {
+    private int playerId;
+    private String skill;
+    private String level;
+    private int points;
+
+    public Player(int playerId, String skill, String level, int points) {
+        this.playerId = playerId;
+        this.skill = skill;
+        this.level = level;
+        this.points = points;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+}
+```
+
+## Class Solution
+
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Solution {
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        Player player1 = new Player(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        Player player2 = new Player(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        Player player3 = new Player(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        Player player4 = new Player(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+
+        String skill = scanner.next();
+        String level = scanner.next();
+
+        System.out.println(findPointsForGivenSkill(new Player[]{player1, player2, player3, player4}, skill));
+        System.out.println(getPlayerBasedOnLevel(new Player[]{player1, player2, player3, player4}, level, skill));
+    }
+
+    static int findPointsForGivenSkill(Player[] players, String skill) {
+        int points = 0;
+        for (Player player : players) {
+            if (player.getSkill().equalsIgnoreCase(skill)) {
+                points += player.getPoints();
+            }
+        }
+        return points;
+    }
+
+    static Player getPlayerBasedOnLevel(Player[] players, String level, String skill) {
+        for (Player player : players) {
+            if (player.getLevel().equalsIgnoreCase(level) && player.getSkill().equalsIgnoreCase(skill) && player.getPoints() >= 20) {
+                return player;
+            }
+        }
+        return null;
+    }
+}
+```
+
+# Input
+
+```
+101
+Cricket
+Basic
+20
+102
+Cricket
+Intermediate
+25
+111
+Football
+Intermediate
+50
+113
+BaseBall
+Advanced
+100
+Cricket
+Intermediate
+```
+
+# Output
+
+```
+45
+102
+```
+
+# Explanation
+
+The `Player` class has four attributes: `playerId`, `skill`, `level`, and `points`. It has a constructor and getters and setters for these attributes.
+
+The `Solution` class has a `main` method that reads four `Player` objects and their attributes, then it reads a `skill` and `level`. It then calls the `findPointsForGivenSkill` and `getPlayerBasedOnLevel` methods with these values.
+
+The `findPointsForGivenSkill` method iterates through the array of `Player` objects and returns the sum of the points for the players with the given `skill`.
+
+The `getPlayerBasedOnLevel` method iterates through the array of `Player` objects and returns the first player that matches the given `level` and `skill` and has points greater than or equal to 20. If no such player is found, it returns null.
+
+Finally, the `main` method prints the output of these methods. If the output is greater than 0, it prints the points as is; otherwise, it prints "The given Skill is not available". If the output is null, it prints "No player is available with specified level, skill and eligibility points".

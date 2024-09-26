@@ -7,8 +7,8 @@ client = Groq(
 )
 
 # Define the input and output directories
-input_directory = r"D:\GitHub\Java\TCS IPA"
-output_directory = r"D:\GitHub\Java\TCS IPA"
+input_directory = r"D:\GitHub\Java\TCS Xplore"
+output_directory = r"D:\GitHub\Java\TCS Xplore"
 
 # Ensure the output directory exists
 os.makedirs(output_directory, exist_ok=True)

@@ -42,3 +42,5 @@ digha
 
 Output ->
 4
+
+Here is the code and explanation for the problem.

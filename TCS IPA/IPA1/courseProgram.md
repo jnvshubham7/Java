@@ -99,3 +99,136 @@ Shubhamk
 output 2:
 No Course found
 No Course found with mentioned attributes.
+
+## Course Class
+### Attributes
+* `courseId` - `int`
+* `courseName` - `String`
+* `courseAdmin` - `String`
+* `quiz` - `int`
+* `handson` - `int`
+
+### Methods
+* Private methods:
+	+ Setter and getter for each attribute
+* Parametrized constructor:
+```java
+public Course(int courseId, String courseName, String courseAdmin, int quiz, int handson) {
+    this.courseId = courseId;
+    this.courseName = courseName;
+    this.courseAdmin = courseAdmin;
+    this.quiz = quiz;
+    this.handson = handson;
+}
+```
+Getter and setter methods:
+```java
+public int getCourseId() {
+    return courseId;
+}
+
+public void setCourseId(int courseId) {
+    this.courseId = courseId;
+}
+
+public String getCourseName() {
+    return courseName;
+}
+
+public void setCourseName(String courseName) {
+    this.courseName = courseName;
+}
+
+public String getCourseAdmin() {
+    return courseAdmin;
+}
+
+public void setCourseAdmin(String courseAdmin) {
+    this.courseAdmin = courseAdmin;
+}
+
+public int getQuiz() {
+    return quiz;
+}
+
+public void setQuiz(int quiz) {
+    this.quiz = quiz;
+}
+
+public int getHandson() {
+    return handson;
+}
+
+public void setHandson(int handson) {
+    this.handson = handson;
+}
+```
+
+## CourseProgram Class
+### Static Methods
+* `findAvgOfQuizByAdmin`:
+```java
+public static int findAvgOfQuizByAdmin(Course[] courses, String admin) {
+    int totalQuiz = 0;
+    int count = 0;
+    for (Course course : courses) {
+        if (course.getCourseAdmin().equals(admin)) {
+            totalQuiz += course.getQuiz();
+            count++;
+        }
+    }
+    return count > 0 ? totalQuiz / count : 0;
+}
+```
+* `sortCourseByHandsOn`:
+```java
+public static Course[] sortCourseByHandsOn(Course[] courses, int maxHandson) {
+    Course[] filteredCourses = new Course[0];
+    for (Course course : courses) {
+        if (course.getHandson() < maxHandson) {
+            filteredCourses = Arrays.copyOf(filteredCourses, filteredCourses.length + 1);
+            filteredCourses[filteredCourses.length - 1] = course;
+        }
+    }
+    return Arrays.stream(filteredCourses).sorted((c1, c2) -> Integer.compare(c1.getHandson(), c2.getHandson())).toArray<Course[]>(Course[]::new);
+}
+```
+### Main Method
+```java
+public static void main(String[] args) {
+    Course[] courses = {
+        new Course(111, "kubernetes", "Nisha", 40, 10),
+        new Course(321, "cassandra", "Roshini", 30, 15),
+        new Course(457, "Apache Spark", "Nisha", 30, 12),
+        new Course(987, "site core", "Tirth", 50, 20),
+        new Course(123, "Nisha", 17)
+    };
+
+    int avgQuiz = findAvgOfQuizByAdmin(courses, "Nisha");
+    if (avgQuiz != 0) {
+        System.out.println(avgQuiz);
+    } else {
+        System.out.println("No Course found");
+    }
+
+    Course[] filteredCourses = sortCourseByHandsOn(courses, 30);
+    if (filteredCourses != null) {
+        for (Course course : filteredCourses) {
+            System.out.println(course.getCourseName());
+        }
+    } else {
+        System.out.println("No Course found with mentioned attributes");
+    }
+}
+```
+### Input and Output
+* Input 1:
+	+ `findAvgOfQuizByAdmin` input: `["Nisha"]`
+	+ Output: `35`
+	+ `sortCourseByHandsOn` input: `30`
+	+ Output: `"kubernetes"`, `"Apache Spark"`, `"cassandra"`
+* Input 2:
+	+ `findAvgOfQuizByAdmin` input: `["Shubhamk"]`
+	+ Output: `0`
+	+ `sortCourseByHandsOn` input: `30`
+	+ Output: `null` (no courses found with mentioned attributes)

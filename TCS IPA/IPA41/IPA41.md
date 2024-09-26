@@ -58,3 +58,138 @@ Output
 ---------------------------
 5000.0
 15000.0
+
+
+## BankAccount Class
+
+The BankAccount class has the following attributes:
+
+* `accountNumber`: an integer
+* `accountHolderName`: a string
+* `balance`: a double
+
+And the following methods:
+
+### Constructor
+```java
+public BankAccount(int accountNumber, String accountHolderName, double balance) {
+    this.accountNumber = accountNumber;
+    this.accountHolderName = accountHolderName;
+    this.balance = balance;
+}
+```
+### Getters
+```java
+public int getAccountNumber() {
+    return accountNumber;
+}
+
+public String getAccountHolderName() {
+    return accountHolderName;
+}
+
+public double getBalance() {
+    return balance;
+}
+```
+### Setters
+```java
+public void setAccountNumber(int accountNumber) {
+    this.accountNumber = accountNumber;
+}
+
+public void setAccountHolderName(String accountHolderName) {
+    this.accountHolderName = accountHolderName;
+}
+
+public void setBalance(double balance) {
+    this.balance = balance;
+}
+```
+
+## Solution Class
+
+The Solution class has the following static methods:
+
+### withdraw
+```java
+public static double withdraw(BankAccount[] accounts, int accountNumber, double amount) {
+    for (BankAccount account : accounts) {
+        if (account.getAccountNumber() == accountNumber) {
+            if (account.getBalance() >= amount) {
+                account.setBalance(account.getBalance() - amount);
+                return account.getBalance();
+            } else {
+                return -1; // Sorry - Insufficient balance
+            }
+        }
+    }
+    return -2; // Sorry - Account not found
+}
+```
+
+### deposit
+```java
+public static double deposit(BankAccount[] accounts, int accountNumber, double amount) {
+    for (BankAccount account : accounts) {
+        if (account.getAccountNumber() == accountNumber) {
+            account.setBalance(account.getBalance() + amount);
+            return account.getBalance();
+        }
+    }
+    return -1; // Sorry - Account not found
+}
+```
+
+## Main Method
+
+```java
+public static void main(String[] args) {
+    BankAccount[] accounts = new BankAccount[3];
+    
+    accounts[0] = new BankAccount(1001, "Alice", 5000.0);
+    accounts[1] = new BankAccount(1002, "Bob", 10000.0);
+    accounts[2] = new BankAccount(1003, "Charlie", 15000.0);
+    
+    double balance1 = Solution.withdraw(accounts, 1002, 5000.0);
+    if (balance1 >= 0) {
+        System.out.println(balance1);
+    } else if (balance1 == -1) {
+        System.out.println("Sorry - Insufficient balance");
+    } else {
+        System.out.println("Sorry - Account not found");
+    }
+    
+    double balance2 = Solution.deposit(accounts, 1001, 10000.0);
+    if (balance2 >= 0) {
+        System.out.println(balance2);
+    } else {
+        System.out.println("Sorry - Account not found");
+    }
+}
+```
+
+Input:
+
+```
+1001
+Alice
+5000.0
+1002
+Bob
+10000.0
+1003
+Charlie
+15000.0
+1002
+5000.0
+1001
+10000.0
+```
+
+Output:
+
+```
+5000.0
+15000.0
+```

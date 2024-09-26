@@ -64,3 +64,151 @@ Output
 ------------------
 The given Brand is not available
 222
+
+## Phone Class
+
+The `Phone` class is used to represent the attributes of a phone. The class has the following attributes:
+
+* `phoneId` - `int` representing the unique identifier of the phone
+* `os` - `String` representing the operating system of the phone
+* `brand` - `String` representing the brand of the phone
+* `price` - `int` representing the price of the phone
+
+The class has a constructor, getters, and setters for each attribute.
+
+```java
+public class Phone {
+    int phoneId;
+    String os;
+    String brand;
+    int price;
+
+    public Phone(int phoneId, String os, String brand, int price) {
+        this.phoneId = phoneId;
+        this.os = os;
+        this.brand = brand;
+        this.price = price;
+    }
+
+    public int getPhoneId() {
+        return phoneId;
+    }
+
+    public void setPhoneId(int phoneId) {
+        this.phoneId = phoneId;
+    }
+
+    public String getOs() {
+        return os;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+}
+```
+
+## Solution Class
+
+The `Solution` class contains the two static methods `findPriceForGivenBrand` and `getPhoneIdBasedOnOs` which are used to find the sum of prices for a given brand and find the phone object with a given OS and price range respectively.
+
+```java
+import java.util.Scanner;
+
+public class Solution {
+    public static int findPriceForGivenBrand(Phone[] phones, String brand) {
+        int sum = 0;
+        for (Phone phone : phones) {
+            if (phone.brand.equalsIgnoreCase(brand)) {
+                sum += phone.price;
+            }
+        }
+        return sum;
+    }
+
+    public static Phone getPhoneIdBasedOnOs(Phone[] phones, String os) {
+        for (Phone phone : phones) {
+            if (phone.os.equalsIgnoreCase(os) && phone.price >= 50000) {
+                return phone;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Phone[] phones = new Phone[4];
+
+        phones[0] = new Phone(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        phones[1] = new Phone(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        phones[2] = new Phone(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+        phones[3] = new Phone(scanner.nextInt(), scanner.next(), scanner.next(), scanner.nextInt());
+
+        String brand = scanner.next();
+        String os = scanner.next();
+
+        int price = findPriceForGivenBrand(phones, brand);
+        if (price > 0) {
+            System.out.println(price);
+        } else {
+            System.out.println("The given Brand is not available");
+        }
+
+        Phone phone = getPhoneIdBasedOnOs(phones, os);
+        if (phone != null) {
+            System.out.println(phone.getPhoneId());
+        } else {
+            System.out.println("No phones are available with specified os and price range");
+        }
+    }
+}
+```
+
+## Input and Output
+
+Input:
+
+```
+111
+iOS
+Apple
+30000
+222
+android
+Samsung
+50000
+333
+Symbian
+HTC
+12000
+444
+Paranoid
+HTC
+89000
+Blackberry
+aNdRoid
+```
+
+Output:
+
+```
+The given Brand is not available
+222
+```

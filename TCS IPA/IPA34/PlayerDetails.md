@@ -100,3 +100,107 @@ UK
 Output : 2
 --------------------
 No player found
+
+**Question 1:**
+Create a class Player3 with private attributes id, name, country, matchesPlayed, and runsScored. Implement getter and setter methods and a parameterized constructor.
+
+**Java Code:**
+```java
+public class Player3 {
+    private int id;
+    private String name;
+    private String country;
+    private int matchesPlayed;
+    private int runsScored;
+
+    // Parameterized constructor
+    public Player3(int id, String name, String country, int matchesPlayed, int runsScored) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.matchesPlayed = matchesPlayed;
+        this.runsScored = runsScored;
+    }
+
+    // Getter methods
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public int getMatchesPlayed() {
+        return matchesPlayed;
+    }
+
+    public int getRunsScored() {
+        return runsScored;
+    }
+
+    // Setter methods
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setMatchesPlayed(int matchesPlayed) {
+        this.matchesPlayed = matchesPlayed;
+    }
+
+    public void setRunsScored(int runsScored) {
+        this.runsScored = runsScored;
+    }
+}
+```
+**Explanation:**
+We have created a class `Player3` with private attributes `id`, `name`, `country`, `matchesPlayed`, and `runsScored`. We have implemented a parameterized constructor that takes these attributes as input and sets them in the object. We have also implemented getter and setter methods for each attribute to provide flexibility for accessing and modifying the attributes.
+
+**Input:**
+1. 5
+   1
+   Arnab
+   India
+   4
+   94
+   2
+   Virat
+   UK
+   5
+   68
+   3
+   Arijit
+   India
+   82
+   87
+   4
+   Raj
+   India
+   21
+   78
+   5
+   Priyanka
+   India
+   12
+   86
+   India
+   80
+
+**Output:**
+1
+-----------------
+3:Arijit
+1:Arnab
+5:Priyanka

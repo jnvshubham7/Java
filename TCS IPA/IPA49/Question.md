@@ -131,3 +131,167 @@ int x = sc.nextInt();
 String str = sc.nextLine(); -> here we expect str to have value Bakers name. Instead it may be "".
 
 If above issue is observed, then it is suggested to add one more explicit call to nextLine() after reading numeric value.
+
+Here is the solution to the problem:
+
+**Bill Class:**
+```java
+import java.util.Objects;
+
+class Bill {
+    private int billNo;
+    private String name;
+    private String typeOfConnection;
+    private double billAmount;
+    private boolean status;
+
+    public Bill(int billNo, String name, String typeOfConnection, double billAmount, boolean status) {
+        this.billNo = billNo;
+        this.name = name;
+        this.typeOfConnection = typeOfConnection;
+        this.billAmount = billAmount;
+        this.status = status;
+    }
+
+    public int getBillNo() {
+        return billNo;
+    }
+
+    public void setBillNo(int billNo) {
+        this.billNo = billNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTypeOfConnection() {
+        return typeOfConnection;
+    }
+
+    public void setTypeOfConnection(String typeOfConnection) {
+        this.typeOfConnection = typeOfConnection;
+    }
+
+    public double getBillAmount() {
+        return billAmount;
+    }
+
+    public void setBillAmount(double billAmount) {
+        this.billAmount = billAmount;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return billNo + "#" + name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bill bill = (Bill) o;
+        return billNo == bill.billNo &&
+                Double.compare(bill.billAmount, billAmount) == 0 &&
+                Objects.equals(name, bill.name) &&
+                Objects.equals(typeOfConnection, bill.typeOfConnection) &&
+                status == bill.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(billNo, name, typeOfConnection, billAmount, status);
+    }
+}
+```
+
+**Solution Class:**
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int numObjects = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+        Bill[] bills = new Bill[numObjects];
+
+        for (int i = 0; i < numObjects; i++) {
+            int billNo = scanner.nextInt();
+            String name = scanner.nextLine();
+            String typeOfConnection = scanner.nextLine();
+            double billAmount = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+            boolean status = scanner.nextBoolean();
+            bills[i] = new Bill(billNo, name, typeOfConnection, billAmount, status);
+        }
+
+        String statusInput = scanner.nextLine();
+        String typeOfConnectionInput = scanner.nextLine();
+
+        Bill[] maxBillWithMaxBillAmount = findBillWithMaxBillAmountBasedOnStatus(bills, statusInput.equalsIgnoreCase("true"));
+        if (maxBillWithMaxBillAmount != null) {
+            System.out.println(Arrays.toString(maxBillWithMaxBillAmount));
+        } else {
+            System.out.println("There are no bills with the given status.");
+        }
+
+        int countWithTypeOfConnection = getCountWithTypeOfConnection(bills, typeOfConnectionInput.equalsIgnoreCase("prepaid") ? "Prepaid" : "Postpaid");
+        if (countWithTypeOfConnection > 0) {
+            System.out.println(countWithTypeOfConnection);
+        } else {
+            System.out.println("There are no bills with given type of connection.");
+        }
+    }
+
+    public static Bill[] findBillWithMaxBillAmountBasedOnStatus(Bill[] bills, boolean status) {
+        Bill[] billsWithStatus = new Bill[0];
+        for (Bill bill : bills) {
+            if (bill.isStatus() == status) {
+                billsWithStatus = increaseArray(billsWithStatus, bill);
+            }
+        }
+        Arrays.sort(billsWithStatus, (a, b) -> Integer.compare(a.getBillNo(), b.getBillNo()));
+        return billsWithStatus;
+    }
+
+    public static int getCountWithTypeOfConnection(Bill[] bills, String typeOfConnection) {
+        int count = 0;
+        for (Bill bill : bills) {
+            if (bill.getTypeOfConnection().equalsIgnoreCase(typeOfConnection)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static <T> T[] increaseArray(T[] array, T element) {
+        T[] newArray = Arrays.copyOf(array, array.length + 1);
+        newArray[newArray.length - 1] = element;
+        return newArray;
+    }
+}
+```
+
+**Explanation:**
+
+The `Bill` class has private attributes and corresponding getter and setter methods. The `toString()` method is overridden to return the bill number followed by the name. The `equals()` and `hashCode()` methods are overridden for proper comparison of `Bill` objects.
+
+The `Solution` class has a `main` method that reads the input using a `Scanner`. The `findBillWithMaxBillAmountBasedOnStatus` method finds the bills with the maximum bill amount based on the given status and returns them in ascending order of their bill numbers. The `getCountWithTypeOfConnection` method counts the bills with the given type of connection.
+
+In the `main` method, the input is read and the required methods are called. The results are printed to the console.
+
+**Note:** The `equalsIgnoreCase()` method is used to make the searches case insensitive. The `Scanner` is used to read the input and the `Arrays` class is used to create and manipulate arrays.

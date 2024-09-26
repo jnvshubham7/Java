@@ -110,3 +110,111 @@ Starter Code
     {
     //code to build Institution class
     }
+
+Here is the markdown format with the code and explanations for the given questions:
+
+**FindNumClearancedByLoc Method**
+===============================
+
+**Description:** This method calculates the sum of noOfStudentsCleared attribute for institutions in the given location.
+
+**Code:**
+```java
+public static int findNumClearancedByLoc(Institution[] instArray, String location) {
+    int sum = 0;
+    for (Institution institution : instArray) {
+        if (institution.getLocation().equals(location.toLowerCase())) {
+            sum += institution.getNoOfStudentsCleared();
+        }
+    }
+    return sum;
+}
+```
+**Explanation:** The method iterates through the array of Institution objects and checks if the location matches the given location. If a match is found, it adds the noOfStudentsCleared attribute to the sum. The method returns the total sum.
+
+**Output:**
+
+* Given location "Chennai":
+	+ Karunya - 10000
+	+ AppleTech - 20000
+	Total: 30000
+* Given location "Coimbatore":
+	+ Karunya - 20000
+	Total: 20000
+
+If no institution with the given location is present in the array, the method returns 0.
+
+**UpdateInstitutionGrade Method**
+==============================
+
+**Description:** This method updates the grade of the institution based on the rating calculation.
+
+**Code:**
+```java
+public static Institution updateInstitutionGrade(Institution[] instArray, String instName) {
+    for (Institution institution : instArray) {
+        if (institution.getInstitutionName().equalsIgnoreCase(instName)) {
+            double rating = (double) institution.getNoOfStudentsPlaced() * 100 / institution.getNoOfStudentsCleared();
+            if (rating >= 80) {
+                institution.setGrade("A");
+            } else {
+                institution.setGrade("B");
+            }
+            return institution;
+        }
+    }
+    return null;
+}
+```
+**Explanation:** The method iterates through the array of Institution objects and checks if the institutionName matches the given institutionName. If a match is found, it calculates the rating and updates the grade accordingly. If no match is found, the method returns null.
+
+**Output:**
+
+* Given institutionName "Karunya":
+	+ Grade: A
+* Given institutionName "AppleTech":
+	+ Grade: B
+
+If the returned value is null, it means no institution was found with the given name.
+
+**Main Method**
+===============
+
+**Code:**
+```java
+public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    Institution[] institutions = new Institution[4];
+    
+    // Read values and create Institution objects
+    for (int i = 0; i < 4; i++) {
+        int institutionId = scanner.nextInt();
+        String institutionName = scanner.next();
+        int noOfStudentsPlaced = scanner.nextInt();
+        int noOfStudentsCleared = scanner.nextInt();
+        String location = scanner.next();
+        institutions[i] = new Institution(institutionId, institutionName, noOfStudentsPlaced, noOfStudentsCleared, location);
+    }
+    
+    String location = scanner.next();
+    String instName = scanner.next();
+    
+    int noOfClearance = findNumClearancedByLoc(institutions, location);
+    Institution institution = updateInstitutionGrade(institutions, instName);
+    
+    if (institution != null) {
+        System.out.println(institution.getInstitutionName() + "::~" + institution.getGrade());
+    } else {
+        System.out.println("No Institute is available with the specified name");
+    }
+    
+    if (noOfClearance > 0) {
+        System.out.println("Number of cleared students: " + noOfClearance);
+    } else {
+        System.out.println("There are no cleared students in this particular location");
+    }
+}
+```
+**Explanation:** The main method reads values for four Institution objects and creates them. It then calls the findNumClearancedByLoc and updateInstitutionGrade methods and prints the results based on the outputs.
+
+**Note:** The above explanation and code are based on the provided input and output.

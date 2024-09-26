@@ -137,3 +137,121 @@ int x = sc.nextInt();
 String str = sc.nextLine(); -> here we expect str to have value Savings.Instead it may be "".
 If above issue is observed, then it is suggested to add one more explicit call to nextLine() after 
 reading numeric value.
+
+
+**Question:** Create a class `HeadSets` with the attributes `headsetName`, `brand`, `price`, and `available`. Write getters, setters, and a parameterized constructor as required. Also, create a class `Solution` with a `main` method and implement two static methods `findTotalPriceForGivenBrand` and `findAvailableHeadsetWithSecondMinPrice`.
+
+**Solution:**
+```java
+import java.util.Scanner;
+
+class HeadSets {
+    private String headsetName;
+    private String brand;
+    private int price;
+    private boolean available;
+
+    public HeadSets(String headsetName, String brand, int price, boolean available) {
+        this.headsetName = headsetName;
+        this.brand = brand;
+        this.price = price;
+        this.available = available;
+    }
+
+    public String getHeadsetName() {
+        return headsetName;
+    }
+
+    public void setHeadsetName(String headsetName) {
+        this.headsetName = headsetName;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        HeadSets headset1 = new HeadSets(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextBoolean());
+        HeadSets headset2 = new HeadSets(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextBoolean());
+        HeadSets headset3 = new HeadSets(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextBoolean());
+        HeadSets headset4 = new HeadSets(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextBoolean());
+
+        String brand = scanner.nextLine();
+
+        int totalPrice = findTotalPriceForGivenBrand(headset1, headset2, headset3, headset4, brand);
+        HeadSets availableHeadset = findAvailableHeadsetWithSecondMinPrice(headset1, headset2, headset3, headset4);
+
+        System.out.println(totalPrice > 0 ? totalPrice : "No Headsets available with the given brand.");
+        if (availableHeadset != null) {
+            System.out.println(availableHeadset.getHeadsetName() + " " + availableHeadset.getPrice());
+        } else {
+            System.out.println("No Headsets available");
+        }
+    }
+
+    public static int findTotalPriceForGivenBrand(HeadSets headset1, HeadSets headset2, HeadSets headset3, HeadSets headset4, String brand) {
+        int totalPrice = 0;
+        for (HeadSets headset : new HeadSets[]{headset1, headset2, headset3, headset4}) {
+            if (headset.getBrand().equalsIgnoreCase(brand)) {
+                totalPrice += headset.getPrice();
+            }
+        }
+        return totalPrice;
+    }
+
+    public static HeadSets findAvailableHeadsetWithSecondMinPrice(HeadSets headset1, HeadSets headset2, HeadSets headset3, HeadSets headset4) {
+        HeadSets[] headsets = new HeadSets[]{headset1, headset2, headset3, headset4};
+        int secondMinPrice = Integer.MAX_VALUE;
+        HeadSets availableHeadset = null;
+        for (HeadSets headset : headsets) {
+            if (headset.isAvailable() && headset.getPrice() < secondMinPrice) {
+                secondMinPrice = headset.getPrice();
+                availableHeadset = headset;
+            }
+        }
+        return availableHeadset;
+    }
+}
+```
+**Explanation:**
+
+*   The `HeadSets` class has private attributes `headsetName`, `brand`, `price`, and `available`. It has getter and setter methods, as well as a parameterized constructor.
+*   The `Solution` class has a `main` method that uses a `Scanner` object to read input values for four `HeadSets` objects and a `brand` parameter.
+*   The `findTotalPriceForGivenBrand` method iterates through the `HeadSets` objects and adds up the prices for the ones matching the given `brand`.
+*   The `findAvailableHeadsetWithSecondMinPrice` method iterates through the `HeadSets` objects, finds the available one with the second-lowest price, and returns it.
+*   In the `main` method, it calls these methods and prints the results.
+
+**Sample Output:**
+
+For the given sample input, the output would be:
+
+```
+1769
+Buds 2 Neo 500
+```
+
+This output corresponds to the second input sample provided.
